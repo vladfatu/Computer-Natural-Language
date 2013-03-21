@@ -25,5 +25,11 @@ public class Feature {
 	{
 		return (frequencies.get(classificationClass.getClassName())+1)/(data.getWordCounts() + data.getVocabulary().size());
 	}
+	
+	public void addFrequencyForClass(ClassificationClass classificationClass, int count)
+	{
+		int frequency = frequencies.get(classificationClass.getClassName());
+		frequencies.put(classificationClass.getClassName(), frequency + count);
+	}
 
 }
