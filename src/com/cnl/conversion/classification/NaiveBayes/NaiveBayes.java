@@ -2,8 +2,9 @@ package com.cnl.conversion.classification.NaiveBayes;
 
 import java.util.List;
 
-import com.cnl.conversion.classification.ClassificationClass;
-import com.cnl.conversion.classification.Feature;
+import com.cnl.conversion.classification.pojo.ClassificationClass;
+import com.cnl.conversion.classification.pojo.Data;
+import com.cnl.conversion.classification.pojo.Feature;
 
 /**
  * @author vlad
@@ -11,7 +12,7 @@ import com.cnl.conversion.classification.Feature;
  */
 public class NaiveBayes {
 
-	public ClassificationClass getClassificationClass(List<ClassificationClass> classes, List<Feature> features)
+	public ClassificationClass getClassificationClass(List<ClassificationClass> classes, Data data)
 	{
 		if (classes.size() > 0)
 		{
@@ -19,7 +20,7 @@ public class NaiveBayes {
 			ClassificationClass bestClassificationClass = classes.get(0);
 			for (ClassificationClass classificationClass : classes)
 			{
-				float probability = getProbabilityForClassificationClass(classificationClass, features);
+				float probability = getProbabilityForClassificationClass(classificationClass, data);
 				if (probability > max)
 				{
 					max = probability;
@@ -31,14 +32,14 @@ public class NaiveBayes {
 		return null;
 	}
 
-	private float getProbabilityForClassificationClass(ClassificationClass classificationClass, List<Feature> features)
+	private float getProbabilityForClassificationClass(ClassificationClass classificationClass, Data data)
 	{
-		if (features.size() > 1)
+		if (data.getVocabulary().size() > 1)
 		{
 			float classProbability = classificationClass.getClassProbability();
-			for (Feature feature : features)
+			for (Feature feature : data.getVocabulary().values())
 			{
-				classProbability *= feature.getProbabilityForClassificationClass(classificationClass);
+				classProbability *= feature.getProbabilityForClassificationClass(classificationClass, data);
 			}
 			return classProbability;
 		}
