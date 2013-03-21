@@ -1,10 +1,7 @@
 package com.cnl.conversion.classification;
 
-public class Feature {
+public interface Feature {
 	
-	public float getProbabilityForClassificationClass(ClassificationClass classificationClass)
-	{
-		return 0;
-	}
+	public float getProbabilityForClassificationClass(ClassificationClass classificationClass);
 
 }
