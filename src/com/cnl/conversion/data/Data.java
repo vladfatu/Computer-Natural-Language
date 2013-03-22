@@ -1,12 +1,16 @@
-package com.cnl.conversion.classification.pojo;
+package com.cnl.conversion.data;
 
+import java.util.List;
 import java.util.Map;
+
+import com.cnl.conversion.classification.pojo.ClassificationClass;
+import com.cnl.conversion.classification.pojo.Feature;
 
 /**
  * @author vlad
  *
  */
-public class Data {
+public abstract class Data {
 
 	private Map<String, Feature> vocabulary;
 	private int wordCounts;
@@ -26,5 +30,9 @@ public class Data {
 	public void setVocabulary(Map<String, Feature> vocabulary) {
 		this.vocabulary = vocabulary;
 	}
+	
+	public abstract void trainFroClass(ClassificationClass classificationClass);
+	
+	public abstract List<String> getTestDataForClass(ClassificationClass classificationClass);
 	
 }

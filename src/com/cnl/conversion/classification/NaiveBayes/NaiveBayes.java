@@ -3,8 +3,8 @@ package com.cnl.conversion.classification.NaiveBayes;
 import java.util.List;
 
 import com.cnl.conversion.classification.pojo.ClassificationClass;
-import com.cnl.conversion.classification.pojo.Data;
 import com.cnl.conversion.classification.pojo.Feature;
+import com.cnl.conversion.data.Data;
 
 /**
  * @author vlad
