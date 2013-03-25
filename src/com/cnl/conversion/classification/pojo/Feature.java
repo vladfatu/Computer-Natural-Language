@@ -33,5 +33,15 @@ public class Feature {
 		int frequency = frequencies.get(classificationClass.getClassName());
 		frequencies.put(classificationClass.getClassName(), frequency + count);
 	}
+	
+	public String print()
+	{
+		StringBuilder string = new StringBuilder();
+		for (Map.Entry<String,Integer> frequency : frequencies.entrySet())
+		{
+			string.append(frequency.getKey()).append(" : ").append(frequency.getValue()).append("  ");
+		}
+		return string.toString();
+	}
 
 }

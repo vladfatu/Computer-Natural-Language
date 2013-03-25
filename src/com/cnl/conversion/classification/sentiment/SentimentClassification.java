@@ -28,8 +28,9 @@ public class SentimentClassification {
 	
 	public void train()
 	{
-		data.trainFroClass(posClassificationClass);
-		data.trainFroClass(negClassificationClass);
+		data.trainFromClass(classes, posClassificationClass);
+		data.trainFromClass(classes, negClassificationClass);
+		data.printVocabulary();
 	}
 	
 	public void test()
@@ -59,7 +60,10 @@ public class SentimentClassification {
 				falseNeg++;
 			}
 		}
-		System.out.println("Accuracy: " + (truePos+falseNeg)/(falsePos+trueNeg));
+		if (falsePos+trueNeg > 0)
+		{
+			System.out.println("Accuracy: " + (truePos+falseNeg)/(falsePos+trueNeg));
+		}
 	}
 	
 	public ClassificationClass getClassForString(String document)
