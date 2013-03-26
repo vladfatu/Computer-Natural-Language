@@ -7,6 +7,10 @@ import com.cnl.conversion.classification.NaiveBayes.NaiveBayes;
 import com.cnl.conversion.classification.pojo.ClassificationClass;
 import com.cnl.conversion.data.Data;
 
+/**
+ * @author vlad
+ *
+ */
 public class SentimentClassification {
 	
 	private List<ClassificationClass> classes;
