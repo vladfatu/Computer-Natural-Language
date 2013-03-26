@@ -64,7 +64,7 @@ public class SentimentClassification {
 		System.out.println("False Negative: " + falseNeg);
 		if (falsePos+trueNeg > 0)
 		{
-			System.out.println("Accuracy: " + (double)(truePos+falseNeg)/(posDocuments.size()+negDocuments.size()));
+			System.out.println("Accuracy: " + (double)((truePos+falseNeg) * 100)/(posDocuments.size()+negDocuments.size()) + "%");
 		}
 	}
 	
