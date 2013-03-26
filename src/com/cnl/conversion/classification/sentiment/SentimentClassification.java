@@ -36,9 +36,9 @@ public class SentimentClassification {
 	public void test()
 	{
 		int truePos = 0, trueNeg = 0, falsePos = 0, falseNeg = 0; 
-		List<String> posDocuments = data.getTestDataForClass(posClassificationClass);
-		List<String> negDocuments = data.getTestDataForClass(negClassificationClass);
-		for (String document : posDocuments)
+		List<List<String>> posDocuments = data.getTestDataForClass(posClassificationClass);
+		List<List<String>> negDocuments = data.getTestDataForClass(negClassificationClass);
+		for (List<String> document : posDocuments)
 		{
 			if (getClassForString(document) == posClassificationClass)
 			{
@@ -49,7 +49,7 @@ public class SentimentClassification {
 				trueNeg++;
 			}
 		}
-		for (String document : negDocuments)
+		for (List<String> document : negDocuments)
 		{
 			if (getClassForString(document) == posClassificationClass)
 			{
@@ -68,10 +68,10 @@ public class SentimentClassification {
 		}
 	}
 	
-	public ClassificationClass getClassForString(String document)
+	public ClassificationClass getClassForString(List<String> stems)
 	{
 		NaiveBayes naiveBayes = new NaiveBayes();
-		return naiveBayes.getClassificationClass(classes, data, document);
+		return naiveBayes.getClassificationClass(classes, data, stems);
 	}
 
 }

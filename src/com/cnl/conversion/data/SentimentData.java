@@ -8,13 +8,16 @@ import java.util.StringTokenizer;
 
 import com.cnl.conversion.classification.pojo.ClassificationClass;
 import com.cnl.conversion.classification.pojo.Feature;
+import com.cnl.conversion.parsing.Stemmer;
 
 /**
  * @author vlad
  * 
  */
 public class SentimentData extends Data {
-	
+
+	private static final boolean STEMMING = false;
+
 	public void updateFeature(String word, List<ClassificationClass> classes, ClassificationClass classificationClass)
 	{
 		Feature feature = this.getVocabulary().get(word);
@@ -28,23 +31,35 @@ public class SentimentData extends Data {
 
 	public void trainFromClass(List<ClassificationClass> classes, ClassificationClass classificationClass)
 	{
-		int startingNumber = 0, lastNumber = 500;
+		int startingNumber = 0, lastNumber = 400;
 		String path = getPathForClass(classificationClass);
 		File file = new File(path);
 		String[] files = file.list();
 		Arrays.sort(files);
 		for (int i = startingNumber; i < lastNumber; i++)
 		{
-			String document = readfile(path+"/"+files[i]);
-			StringTokenizer tokenizer = new StringTokenizer(document);
-			while (tokenizer.hasMoreTokens())
+			if (STEMMING)
 			{
-				updateFeature(tokenizer.nextToken(), classes, classificationClass);
-				setWordCounts(getWordCounts()+1);
+				for (String stem : Stemmer.getStems(path + "/" + files[i]))
+				{
+					updateFeature(stem, classes, classificationClass);
+					setWordCounts(getWordCounts() + 1);
+				}
 			}
+			else
+			{
+				String document = readfile(path + "/" + files[i]);
+				StringTokenizer tokenizer = new StringTokenizer(document);
+				while (tokenizer.hasMoreTokens())
+				{
+					updateFeature(tokenizer.nextToken(), classes, classificationClass);
+					setWordCounts(getWordCounts() + 1);
+				}
+			}
+
 		}
 	}
-	
+
 	private String getPathForClass(ClassificationClass classificationClass)
 	{
 		if (classificationClass.getClassName().equalsIgnoreCase(("positive")))
@@ -57,10 +72,10 @@ public class SentimentData extends Data {
 		}
 	}
 
-	public List<String> getTestDataForClass(ClassificationClass classificationClass)
+	public List<List<String>> getTestDataForClass(ClassificationClass classificationClass)
 	{
-		List<String> documents = new ArrayList<String>();
-		
+		List<List<String>> documents = new ArrayList<List<String>>();
+
 		int startingNumber = 900, lastNumber = 1000;
 		String path = getPathForClass(classificationClass);
 		File file = new File(path);
@@ -68,10 +83,23 @@ public class SentimentData extends Data {
 		Arrays.sort(files);
 		for (int i = startingNumber; i < lastNumber; i++)
 		{
-			String document = readfile(path+"/"+files[i]);
-			documents.add(document);
+			if (STEMMING)
+			{
+				documents.add(Stemmer.getStems(path + "/" + files[i]));
+			}
+			else
+			{
+				 String document = readfile(path+"/"+files[i]);
+				 StringTokenizer tokenizer = new StringTokenizer(document);
+				 List<String> stems = new ArrayList<String>();
+				 while (tokenizer.hasMoreTokens())
+				 {
+				 stems.add(tokenizer.nextToken());
+				 }
+				 documents.add(stems);
+			}
 		}
-		
+
 		return documents;
 	}
 

@@ -1,7 +1,6 @@
 package com.cnl.conversion.classification.NaiveBayes;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
 import com.cnl.conversion.classification.pojo.ClassificationClass;
 import com.cnl.conversion.classification.pojo.Feature;
@@ -13,7 +12,7 @@ import com.cnl.conversion.data.Data;
  */
 public class NaiveBayes {
 
-	public ClassificationClass getClassificationClass(List<ClassificationClass> classes, Data data, String document)
+	public ClassificationClass getClassificationClass(List<ClassificationClass> classes, Data data, List<String> stems)
 	{
 		if (classes.size() > 0)
 		{
@@ -21,7 +20,7 @@ public class NaiveBayes {
 			ClassificationClass bestClassificationClass = classes.get(0);
 			for (ClassificationClass classificationClass : classes)
 			{
-				double probability = getProbabilityForClassificationClass(classificationClass, data, document);
+				double probability = getProbabilityForClassificationClass(classificationClass, data, stems);
 				if (probability > max || max == 2)
 				{
 					max = probability;
@@ -33,15 +32,14 @@ public class NaiveBayes {
 		return null;
 	}
 
-	private double getProbabilityForClassificationClass(ClassificationClass classificationClass, Data data, String document)
+	private double getProbabilityForClassificationClass(ClassificationClass classificationClass, Data data, List<String> stems)
 	{
 		if (data.getVocabulary().size() > 1)
 		{
 			double classProbability = classificationClass.getClassProbability();
-			StringTokenizer tokenizer = new StringTokenizer(document);
-			while (tokenizer.hasMoreTokens())
+			for (String stem : stems)
 			{
-				Feature feature = data.getVocabulary().get(tokenizer.nextToken());
+				Feature feature = data.getVocabulary().get(stem);
 				if (feature != null)
 				{
 					classProbability = classProbability + Math.log(feature.getProbabilityForClassificationClass(classificationClass, data));

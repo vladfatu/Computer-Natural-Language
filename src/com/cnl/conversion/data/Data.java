@@ -51,7 +51,7 @@ public abstract class Data {
 	
 	public abstract void trainFromClass(List<ClassificationClass> classes, ClassificationClass classificationClass);
 	
-	public abstract List<String> getTestDataForClass(ClassificationClass classificationClass);
+	public abstract List<List<String>> getTestDataForClass(ClassificationClass classificationClass);
 	
 	protected String readfile(String path)
 	{
