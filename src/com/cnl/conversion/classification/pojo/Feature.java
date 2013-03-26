@@ -23,9 +23,9 @@ public class Feature {
 		}
 	}
 	
-	public float getProbabilityForClassificationClass(ClassificationClass classificationClass, Data data)
+	public double getProbabilityForClassificationClass(ClassificationClass classificationClass, Data data)
 	{
-		return (frequencies.get(classificationClass.getClassName())+1)/(data.getWordCounts() + data.getVocabulary().size());
+		return ((double)(frequencies.get(classificationClass.getClassName())+1))/(data.getWordCounts() + data.getVocabulary().size());
 	}
 	
 	public void addFrequencyForClass(ClassificationClass classificationClass, int count)

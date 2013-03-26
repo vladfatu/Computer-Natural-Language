@@ -60,16 +60,18 @@ public class SentimentClassification {
 				falseNeg++;
 			}
 		}
+		System.out.println("True Positive: " + truePos);
+		System.out.println("False Negative: " + falseNeg);
 		if (falsePos+trueNeg > 0)
 		{
-			System.out.println("Accuracy: " + (truePos+falseNeg)/(falsePos+trueNeg));
+			System.out.println("Accuracy: " + (double)(truePos+falseNeg)/(posDocuments.size()+negDocuments.size()));
 		}
 	}
 	
 	public ClassificationClass getClassForString(String document)
 	{
 		NaiveBayes naiveBayes = new NaiveBayes();
-		return naiveBayes.getClassificationClass(classes, data);
+		return naiveBayes.getClassificationClass(classes, data, document);
 	}
 
 }

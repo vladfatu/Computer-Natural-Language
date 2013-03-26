@@ -28,16 +28,8 @@ public class SentimentData extends Data {
 
 	public void trainFromClass(List<ClassificationClass> classes, ClassificationClass classificationClass)
 	{
-		int startingNumber = 0, lastNumber = 100;
-		String path = null;
-		if (classificationClass.getClassName().equals("positive"))
-		{
-			path = "data/movie_review_data/pos";
-		}
-		else
-		{
-			path = "data/movie_review_data/neg";
-		}
+		int startingNumber = 0, lastNumber = 500;
+		String path = getPathForClass(classificationClass);
 		File file = new File(path);
 		String[] files = file.list();
 		Arrays.sort(files);
@@ -48,13 +40,38 @@ public class SentimentData extends Data {
 			while (tokenizer.hasMoreTokens())
 			{
 				updateFeature(tokenizer.nextToken(), classes, classificationClass);
+				setWordCounts(getWordCounts()+1);
 			}
+		}
+	}
+	
+	private String getPathForClass(ClassificationClass classificationClass)
+	{
+		if (classificationClass.getClassName().equalsIgnoreCase(("positive")))
+		{
+			return "data/movie_review_data/pos";
+		}
+		else
+		{
+			return "data/movie_review_data/neg";
 		}
 	}
 
 	public List<String> getTestDataForClass(ClassificationClass classificationClass)
 	{
 		List<String> documents = new ArrayList<String>();
+		
+		int startingNumber = 900, lastNumber = 1000;
+		String path = getPathForClass(classificationClass);
+		File file = new File(path);
+		String[] files = file.list();
+		Arrays.sort(files);
+		for (int i = startingNumber; i < lastNumber; i++)
+		{
+			String document = readfile(path+"/"+files[i]);
+			documents.add(document);
+		}
+		
 		return documents;
 	}
 
