@@ -28,10 +28,9 @@ public class SentimentData extends Data {
 		feature.addFrequencyForClass(classificationClass, 1);
 		this.getVocabulary().put(word, feature);
 	}
-
-	public void trainFromClass(List<ClassificationClass> classes, ClassificationClass classificationClass)
+	
+	public void trainFromClass(List<ClassificationClass> classes, ClassificationClass classificationClass, int startingNumber, int lastNumber)
 	{
-		int startingNumber = 0, lastNumber = 400;
 		String path = getPathForClass(classificationClass);
 		File file = new File(path);
 		String[] files = file.list();
@@ -43,7 +42,8 @@ public class SentimentData extends Data {
 				for (String stem : Stemmer.getStems(path + "/" + files[i]))
 				{
 					updateFeature(stem, classes, classificationClass);
-					setWordCounts(getWordCounts() + 1);
+					int count = getClassCount().get(classificationClass.getClassName());
+					getClassCount().put(classificationClass.getClassName(), count+1);
 				}
 			}
 			else
@@ -53,7 +53,8 @@ public class SentimentData extends Data {
 				while (tokenizer.hasMoreTokens())
 				{
 					updateFeature(tokenizer.nextToken(), classes, classificationClass);
-					setWordCounts(getWordCounts() + 1);
+					int count = getClassCount().get(classificationClass.getClassName());
+					getClassCount().put(classificationClass.getClassName(), count+1);
 				}
 			}
 
@@ -71,12 +72,11 @@ public class SentimentData extends Data {
 			return "data/movie_review_data/neg";
 		}
 	}
-
-	public List<List<String>> getTestDataForClass(ClassificationClass classificationClass)
+	
+	public List<List<String>> getTestDataForClass(ClassificationClass classificationClass, int startingNumber, int lastNumber)
 	{
 		List<List<String>> documents = new ArrayList<List<String>>();
 
-		int startingNumber = 900, lastNumber = 1000;
 		String path = getPathForClass(classificationClass);
 		File file = new File(path);
 		String[] files = file.list();

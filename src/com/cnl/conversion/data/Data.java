@@ -18,19 +18,20 @@ import com.cnl.conversion.classification.pojo.Feature;
 public abstract class Data {
 
 	private Map<String, Feature> vocabulary;
-	private int wordCounts;
+	private Map<String, Integer> classCount;
 	
 	public Data()
 	{
 		this.vocabulary = new HashMap<String, Feature>();
+		this.classCount = new HashMap<String, Integer>();
 	}
-
-	public int getWordCounts() {
-		return wordCounts;
-	}
-
-	public void setWordCounts(int wordCounts) {
-		this.wordCounts = wordCounts;
+	
+	public void init(List<ClassificationClass> classes)
+	{
+		for (ClassificationClass classificationClass : classes)
+		{
+			this.classCount.put(classificationClass.getClassName(), 0);
+		}
 	}
 
 	public Map<String, Feature> getVocabulary() {
@@ -49,9 +50,9 @@ public abstract class Data {
 		}
 	}
 	
-	public abstract void trainFromClass(List<ClassificationClass> classes, ClassificationClass classificationClass);
+	public abstract void trainFromClass(List<ClassificationClass> classes, ClassificationClass classificationClass, int startingNumber, int lastNumber);
 	
-	public abstract List<List<String>> getTestDataForClass(ClassificationClass classificationClass);
+	public abstract List<List<String>> getTestDataForClass(ClassificationClass classificationClass, int startingNumber, int lastNumber);
 	
 	protected String readfile(String path)
 	{
@@ -80,6 +81,16 @@ public abstract class Data {
         }
 
        return contents.toString();
+	}
+
+	public Map<String, Integer> getClassCount()
+	{
+		return classCount;
+	}
+
+	public void setClassCount(Map<String, Integer> classCount)
+	{
+		this.classCount = classCount;
 	}
 	
 }
