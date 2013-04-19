@@ -1,7 +1,15 @@
 package com.cnl.conversion.wsd.pojo;
 
+import java.util.List;
+
+import edu.mit.jwi.item.IWordID;
+
+/**
+ * @author vlad
+ *
+ */
 public abstract class WsdMethod {
 	
-	protected abstract int getScore(String text1, String text2);
+	public abstract IWordID getBestWordId(Word targetWord, List<Word> featureWords);
 
 }
