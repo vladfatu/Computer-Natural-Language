@@ -11,30 +11,10 @@ import com.cnl.conversion.data.Data;
  * @author vlad
  * 
  */
-public class NaiveBayes implements ClassificationMethod{
+public class NaiveBayes extends ClassificationMethod{
 
 	@Override
-	public ClassificationClass getClassificationClass(List<ClassificationClass> classes, Data data, List<String> stems)
-	{
-		if (classes.size() > 0)
-		{
-			double max = 2;
-			ClassificationClass bestClassificationClass = classes.get(0);
-			for (ClassificationClass classificationClass : classes)
-			{
-				double probability = getProbabilityForClassificationClass(classificationClass, data, stems);
-				if (probability > max || max == 2)
-				{
-					max = probability;
-					bestClassificationClass = classificationClass;
-				}
-			}
-			return bestClassificationClass;
-		}
-		return null;
-	}
-
-	private double getProbabilityForClassificationClass(ClassificationClass classificationClass, Data data, List<String> stems)
+	protected double getProbabilityForClassificationClass(ClassificationClass classificationClass, Data data, List<String> stems)
 	{
 		if (data.getVocabulary().size() > 1)
 		{
