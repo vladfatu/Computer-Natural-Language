@@ -38,7 +38,7 @@ public class WordnetTest {
 		dict.open();
 		
 		WordnetStemmer stemmer = new WordnetStemmer(dict);
-		List<String> stems = stemmer.findStems("line", POS.NOUN);
+		List<String> stems = stemmer.findStems("no", POS.NOUN);
 		IIndexWord idxWord = dict.getIndexWord("line", POS.NOUN);
 		// IWordID wordID = idxWord.getWordIDs().get(0);
 		for (IWordID wordID : idxWord.getWordIDs())

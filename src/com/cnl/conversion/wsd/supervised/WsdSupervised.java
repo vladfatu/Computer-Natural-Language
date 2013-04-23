@@ -40,6 +40,11 @@ public class WsdSupervised extends WsdMethod {
 		senseMap = new HashMap<String, String>();
 		senseMap.put("cord", "WID-03670849-N-??-line");
 		senseMap.put("division", "WID-05748786-N-??-line");
+		senseMap.put("phone", "WID-04402057-N-??-line");
+		senseMap.put("product", "WID-03671668-N-??-line");
+		senseMap.put("text", "WID-07012534-N-??-line");
+		senseMap.put("formation", "WID-08430568-N-??-line");
+		
 		try
 		{
 			URL url = new URL("file", null, Constants.WORDNET_PATH);
@@ -56,7 +61,7 @@ public class WsdSupervised extends WsdMethod {
 
 			long t = System.currentTimeMillis();
 			int goodWordSense = 0;
-			int numberOfContextsToRead = 700;
+			int numberOfContextsToRead = 4000;
 
 			for (int i = 0; i < numberOfContextsToRead; i++)
 			{
@@ -135,6 +140,13 @@ public class WsdSupervised extends WsdMethod {
 			}
 			i--;
 		}
+		
+		System.out.print("Feature words are :");
+		for (Word word : featureWords)
+		{
+			System.out.print(" " + word.getWord());
+		}
+		System.out.println();
 
 		return featureWords;
 	}
