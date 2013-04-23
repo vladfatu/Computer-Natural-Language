@@ -3,6 +3,7 @@ package com.cnl.conversion;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cnl.conversion.data.WsdData;
 import com.cnl.conversion.wsd.pojo.Word;
 import com.cnl.conversion.wsd.pojo.WsdMethod;
 import com.cnl.conversion.wsd.supervised.WsdSupervised;
@@ -19,9 +20,15 @@ public class Main {
 		
 		//WSD
 		
+		WsdData wsdData = new WsdData();
+		
 		Word line = new Word("line", POS.NOUN);
 		
 		WsdMethod wsdMethod = new WsdSupervised();
+		
+		wsdMethod.test(line, wsdData.getContexts());
+		
+		
 		List<Word> featureWords = new ArrayList<Word>();
 		Word featureWord = new Word("mooring", POS.NOUN);
 		featureWords.add(featureWord);
@@ -41,11 +48,11 @@ public class Main {
 		featureWord = new Word("structure", POS.NOUN);
 		featureWords.add(featureWord);
 		
-		long t = System.currentTimeMillis();
-		
-		wsdMethod.getBestWordId(line, featureWords);
-		
-		System.out.printf("Finished in (%1d msec )" , System.currentTimeMillis()-t ) ;
+//		long t = System.currentTimeMillis();
+//		
+//		wsdMethod.getBestWordId(line, featureWords);
+//		
+//		System.out.printf("Finished in (%1d msec )" , System.currentTimeMillis()-t ) ;
 	}
 
 }
