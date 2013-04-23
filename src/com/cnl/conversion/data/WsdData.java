@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 
 import com.cnl.conversion.wsd.pojo.Word;
 import com.cnl.conversion.wsd.pojo.WsdContext;
@@ -36,7 +37,7 @@ public class WsdData {
 			Node tempNode = doc.childNode(0).childNode(1).childNode(0).childNode(1);
 			for (Node node : tempNode.childNodes())
 			{
-				if (node.nodeName().equals("instance"))
+				if (!(node instanceof TextNode))
 				{
 					Node senseNode = node.childNode(1);
 					WsdContext wsdContext = new WsdContext();

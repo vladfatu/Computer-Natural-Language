@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cnl.constants.Constants;
 import com.cnl.conversion.wsd.pojo.Word;
@@ -30,9 +32,14 @@ import edu.mit.jwi.morph.WordnetStemmer;
  * 
  */
 public class WsdSupervised extends WsdMethod {
-
+	
+	private Map<String, String> senseMap;
+	
 	public void test(Word targetWord, List<WsdContext> wsdContexts)
 	{
+		senseMap = new HashMap<String, String>();
+		senseMap.put("cord", "WID-03670849-N-??-line");
+		senseMap.put("division", "WID-05748786-N-??-line");
 		try
 		{
 			URL url = new URL("file", null, Constants.WORDNET_PATH);
@@ -48,12 +55,28 @@ public class WsdSupervised extends WsdMethod {
 			// System.currentTimeMillis()-t ) ;
 
 			long t = System.currentTimeMillis();
+			int goodWordSense = 0;
+			int numberOfContextsToRead = 700;
 
-			for (int i = 0; i < 40; i++)
+			for (int i = 0; i < numberOfContextsToRead; i++)
 			{
 				System.out.println(i + " sense: " + wsdContexts.get(i).getSenseId());
-				getBestWordId(dict, stemmer, targetWord, wsdContexts.get(i));
+				IWordID bestWordID = getBestWordId(dict, stemmer, targetWord, wsdContexts.get(i));
+				if (bestWordID != null)
+				{
+					if (bestWordID.toString().equals(senseMap.get(wsdContexts.get(i).getSenseId())))
+					{
+						System.out.println("Should be " +wsdContexts.get(i).getSenseId() + " true");
+						goodWordSense++;
+					}
+					else
+					{
+						System.out.println("Should be " +wsdContexts.get(i).getSenseId() + " false");
+					}
+				}
 			}
+			
+			System.out.println("Accuracy: " + (((double)goodWordSense/numberOfContextsToRead)*100) + "%");
 
 			System.out.printf("Finished in (%1d msec )",
 					System.currentTimeMillis() - t);
