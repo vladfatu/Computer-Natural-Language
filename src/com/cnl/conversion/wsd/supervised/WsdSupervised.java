@@ -61,7 +61,7 @@ public class WsdSupervised extends WsdMethod {
 
 			long t = System.currentTimeMillis();
 			int goodWordSense = 0;
-			int numberOfContextsToRead = 4000;
+			int numberOfContextsToRead = 10;
 
 			for (int i = 0; i < numberOfContextsToRead; i++)
 			{
@@ -202,7 +202,7 @@ public class WsdSupervised extends WsdMethod {
 				.getSynset().getGloss());
 		List<ISynsetID> synsets = new ArrayList<ISynsetID>();
 		synsets.addAll(targetWord.getSynset().getRelatedSynsets(Pointer.MERONYM_PART));
-		synsets.addAll(targetWord.getSynset().getRelatedSynsets(Pointer.HYPERNYM));
+		synsets.addAll(targetWord.getSynset().getRelatedSynsets(Pointer.HYPONYM));
 		for (ISynsetID synetID : synsets)
 		{
 			targetCombinedGloss.append(" ").append(
@@ -213,7 +213,7 @@ public class WsdSupervised extends WsdMethod {
 				.getSynset().getGloss());
 		synsets = new ArrayList<ISynsetID>();
 		synsets.addAll(featureWord.getSynset().getRelatedSynsets(Pointer.MERONYM_PART));
-		synsets.addAll(featureWord.getSynset().getRelatedSynsets(Pointer.HYPERNYM));
+		synsets.addAll(featureWord.getSynset().getRelatedSynsets(Pointer.HYPONYM));
 		for (ISynsetID synetID : synsets)
 		{
 			featureCombinedGloss.append(" ").append(
